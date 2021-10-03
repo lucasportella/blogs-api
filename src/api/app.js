@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { UsersRoute } = require('../routes');
+const { userRoute, loginRoute } = require('../routes');
 const validationError = require('../middlewares/validations/validationError');
 
 const app = express();
@@ -10,7 +10,8 @@ app.get('/', (request, response) => {
   response.send();
 });
 
-app.use('/user', UsersRoute);
+app.use('/user', userRoute);
+app.use('/login', loginRoute);
 
 app.use(validationError);
 
