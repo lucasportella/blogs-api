@@ -22,7 +22,7 @@ describe('1 - Sua aplicação deve ter o endpoint POST `/user`', () => {
       .then((response) => {
         const { json } = response;
         expect(json.token).not.toBeNull();
-      }).then(r => console.log(r.json));
+      });
   });
 
   it('Será validado que não é possível cadastrar usuário com o campo `displayName` menor que 8 caracteres', async () => {
