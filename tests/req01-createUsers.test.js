@@ -22,6 +22,7 @@ describe('1 - Sua aplicação deve ter o endpoint POST `/user`', () => {
       .then((response) => {
         const { json } = response;
         expect(json.token).not.toBeNull();
+        expect(json.token).toMatch(/.*/)
       });
   });
 
