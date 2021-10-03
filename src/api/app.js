@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { UsersRoute } = require('../routes');
+const validationError = require('../middlewares/validations/validationError');
 
 const app = express();
 app.use(bodyParser.json());
@@ -10,5 +11,7 @@ app.get('/', (request, response) => {
 });
 
 app.use('/user', UsersRoute);
+
+app.use(validationError);
 
 module.exports = app;

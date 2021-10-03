@@ -2,7 +2,6 @@ const UserService = require('../services/UserService');
 
 const postNewUser = async (req, res) => {
     try {
-        console.log('oi');
         const { displayName, email, password, image } = req.body;
         const payload = { displayName, email, password, image };
         console.log(UserService);
