@@ -19,9 +19,10 @@ describe('2 - Sua aplicação deve ter o endpoint POST `/login`', () => {
         })
       .expect('status', 200)
       .then((response) => {
-        const { body } = response;
+        const { body, json } = response;
         const result = JSON.parse(body);
         expect(result.token).not.toBeNull();
+        expect(json.token).toMatch(/.*/)
       });
   });
 
