@@ -7,6 +7,17 @@ const postCategory = async (req, res) => {
     return res.status(StatusCodes.CREATED).json(newCategory);
 };
 
+const getAllCategories = async (req, res) => {
+    try {
+        const allCategories = await categoryService.getAllCategories();
+        return res.status(StatusCodes.OK).json(allCategories);
+    } catch (e) {
+        console.log('erro no controller getAllCategories');
+        console.log(e);
+    }
+};
+
 module.exports = {
     postCategory,
+    getAllCategories,
 };
