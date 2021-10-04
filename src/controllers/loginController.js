@@ -6,7 +6,6 @@ const loginController = async (req, res) => {
     const { token } = req;
     const payload = { email, password };
     const result = await loginService.postLogin(payload);
-    console.log(result);
     if (result.error) {
         return res.status(StatusCodes.BAD_REQUEST).json({ message: result.error.message });
     }
