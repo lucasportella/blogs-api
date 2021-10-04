@@ -13,6 +13,17 @@ const postNewUser = async (payload) => {
     };
 };
 
+const getAllUsers = async () => {
+    const allUsers = await User.findAll();
+    const parsedAllUsers = allUsers.map((user) => ({
+        id: user.id,
+        displayName: user.displayName,
+        email: user.email,
+        image: user.image,
+    }));
+    return parsedAllUsers;
+};
+
 module.exports = {
     postNewUser,
 };
