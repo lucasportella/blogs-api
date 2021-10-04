@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { userRoute, loginRoute, categoryRoute } = require('../routes');
+const { userRoute, loginRoute, categoryRoute, blogPostRoute } = require('../routes');
 const validationError = require('../middlewares/validations/validationError');
 
 const app = express();
@@ -13,6 +13,7 @@ app.get('/', (request, response) => {
 app.use('/user', userRoute);
 app.use('/login', loginRoute);
 app.use('/categories', categoryRoute);
+app.use('/post', blogPostRoute);
 
 app.use(validationError);
 
