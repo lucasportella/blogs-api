@@ -26,4 +26,5 @@ const getAllUsers = async () => {
 
 module.exports = {
     postNewUser,
+    getAllUsers,
 };

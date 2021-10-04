@@ -13,7 +13,7 @@ const postNewUser = async (req, res) => {
             return res.status(StatusCodes.CONFLICT).json({ message: newUser.error.message });
         }
 
-        res.status(StatusCodes.CREATED).json({ token });
+        return res.status(StatusCodes.CREATED).json({ token });
     } catch (e) {
         console.log(e.message);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -21,6 +21,17 @@ const postNewUser = async (req, res) => {
     }
 };
 
+const getAllUsers = async (req, res) => {
+    try {
+        const allUsers = await UserService.getAllUsers();
+        return res.status(StatusCodes.OK).json(allUsers);
+    } catch (e) {
+        console.log('erro no controller getAllUsers');
+        console.log(e);
+    }
+};
+
 module.exports = {
     postNewUser,
+    getAllUsers,
 };
