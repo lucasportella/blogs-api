@@ -10,4 +10,6 @@ router.post('/', validatePostNewUser, generateToken, userController.postNewUser)
 
 router.get('/', validateJWT, userController.getAllUsers);
 
+router.get('/:id', validateJWT, userController.getUser);
+
 module.exports = router;

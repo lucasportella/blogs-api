@@ -31,7 +31,22 @@ const getAllUsers = async (req, res) => {
     }
 };
 
+const getUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await UserService.getUser(id);
+        if (user.error) {
+            return res.status(StatusCodes.NOT_FOUND).json({ message: user.error.message });
+        }
+        return res.status(StatusCodes.OK).json(user);
+    } catch (e) {
+        console.log('erro no getUser controller');
+        console.log(e);
+    }
+};
+
 module.exports = {
     postNewUser,
     getAllUsers,
+    getUser,
 };

@@ -24,7 +24,22 @@ const getAllUsers = async () => {
     return parsedAllUsers;
 };
 
+const getUser = async (id) => {
+    const user = await User.findOne({ where: { id } });
+    if (!user) {
+        return { errorType: 'not_found', error: { message: 'User does not exist' } };
+    }
+    const parsedUser = {
+        id: user.id,
+        displayName: user.displayName,
+        email: user.email,
+        image: user.image,
+    };
+    return parsedUser;
+};
+
 module.exports = {
     postNewUser,
     getAllUsers,
+    getUser,
 };
