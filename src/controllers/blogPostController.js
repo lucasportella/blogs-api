@@ -48,7 +48,11 @@ const postBlogPost = async (req, res) => {
             const { title, content } = req.body;
             const payload = { userId, blogPostId, title, content };
             const updatedBlogPost = await PostService.putBlogPost(payload);
-            return res.status(StatusCodes.OK).json(updatedBlogPost);
+            if (updatedBlogPost.error) {
+                return res.status(StatusCodes.UNAUTHORIZED)
+                .json({ message: updatedBlogPost.error.message });
+            }
+            return res.status(StatusCodes.OK).json({ message: updatedBlogPost });
         } catch (e) {
             console.log('erro no controller putBlogPost', e);
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(e); 

@@ -36,7 +36,11 @@ include: [{ model: User, as: 'user' },
 };
 
 const putBlogPost = async (payload) => {
-    const { title, content, blogPostId } = payload;
+    const { userId, title, content, blogPostId } = payload;
+    const userOwnership = await getBlogPost(blogPostId);
+    if (userOwnership.error || userOwnership.user.id !== userId) {
+        return { errorType: 'unauthorized', error: { message: 'Unauthorized user' } };
+    }
     const result = await BlogPost.update({ title, content }, { where: { id: blogPostId } });
     return result;
 };
