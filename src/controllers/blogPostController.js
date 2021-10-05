@@ -1,5 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
-const PostService = require('../services/PostService');
+const PostService = require('../services/BlogPostService');
 
 const postBlogPost = async (req, res) => {
    try {
@@ -12,11 +12,22 @@ const postBlogPost = async (req, res) => {
        }
        return res.status(StatusCodes.CREATED).json(newBlogPost);
    } catch (e) {
-       console.log(e);
+       console.log('erro no controller postBlogPost', e);
    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(e); 
 }
 };
 
+    const getAllBlogPosts = async (req, res) => {
+        try {
+            const allBlogPosts = await PostService.getAllBlogPosts();
+            return res.status(StatusCodes.OK).json(allBlogPosts);
+        } catch (e) {
+            console.log('erro no controller getAllBlogPosts', e);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(e); 
+        }
+    };
+
 module.exports = {
     postBlogPost,
+    getAllBlogPosts,
 };
