@@ -12,4 +12,6 @@ router.get('/', validateJWT, blogPostController.getAllBlogPosts);
 
 router.get('/:id', validateJWT, blogPostController.getBlogPost);
 
+router.put('/:id', validateJWT, blogPostController.putBlogPost);
+
 module.exports = router;

@@ -35,8 +35,15 @@ include: [{ model: User, as: 'user' },
     return result;
 };
 
+const putBlogPost = async (payload) => {
+    const { title, content, blogPostId } = payload;
+    const result = await BlogPost.update({ title, content }, { where: { id: blogPostId } });
+    return result;
+};
+
 module.exports = {
     postBlogPost,
     getAllBlogPosts,
     getBlogPost,
+    putBlogPost,
 };

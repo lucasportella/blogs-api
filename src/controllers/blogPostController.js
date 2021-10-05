@@ -41,8 +41,23 @@ const postBlogPost = async (req, res) => {
         }
     };
 
+    const putBlogPost = async (req, res) => {
+        try {
+            const userId = req.user.id;
+            const blogPostId = req.params.id;
+            const { title, content } = req.body;
+            const payload = { userId, blogPostId, title, content };
+            const updatedBlogPost = await PostService.putBlogPost(payload);
+            return res.status(StatusCodes.OK).json(updatedBlogPost);
+        } catch (e) {
+            console.log('erro no controller putBlogPost', e);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(e); 
+        }
+    };
+
 module.exports = {
     postBlogPost,
     getAllBlogPosts,
     getBlogPost,
+    putBlogPost,
 };
