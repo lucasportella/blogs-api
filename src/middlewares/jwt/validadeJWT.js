@@ -16,9 +16,9 @@ const validateJWT = async (req, res, next) => {
             return res.status(StatusCodes.UNAUTHORIZED)
             .json({ message: 'Expired or invalid token' });
         }
+        req.user = user;
     } catch (e) {
-        console.log('erro no validateJWT middleware');
-        console.log(e);
+        console.log('erro no validateJWT middleware', e);
         return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Expired or invalid token' });
     }
     next();

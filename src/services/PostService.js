@@ -1,7 +1,8 @@
 const { BlogPost } = require('../sequelize/models');
 
 const postBlogPost = async (payload) => {
-    const result = await BlogPost.create(payload);
+    const { title, content, userId } = payload;
+    const result = await BlogPost.create({ title, content, userId });
     return result;
 };
 
