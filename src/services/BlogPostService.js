@@ -38,10 +38,14 @@ include: [{ model: User, as: 'user' },
 const putBlogPost = async (payload) => {
     const { userId, title, content, blogPostId } = payload;
     const userOwnership = await getBlogPost(blogPostId);
+    console.log(userOwnership);
     if (userOwnership.error || userOwnership.user.id !== userId) {
         return { errorType: 'unauthorized', error: { message: 'Unauthorized user' } };
     }
-    const result = await BlogPost.update({ title, content }, { where: { id: blogPostId } });
+    let result = await BlogPost.update({ title, content }, { where: { id: blogPostId } });
+    if (result[0] === 1) {
+        result = { title, content, userId, categories: userOwnership.categories };
+    }
     return result;
 };
 

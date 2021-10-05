@@ -52,7 +52,7 @@ const postBlogPost = async (req, res) => {
                 return res.status(StatusCodes.UNAUTHORIZED)
                 .json({ message: updatedBlogPost.error.message });
             }
-            return res.status(StatusCodes.OK).json({ message: updatedBlogPost });
+            return res.status(StatusCodes.OK).json(updatedBlogPost);
         } catch (e) {
             console.log('erro no controller putBlogPost', e);
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(e); 
