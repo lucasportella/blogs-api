@@ -7,6 +7,9 @@ const postBlogPost = async (req, res) => {
        const userId = req.user.id;
        const payload = { title, content, categoryIds, userId };
        const newBlogPost = await PostService.postBlogPost(payload);
+       if (newBlogPost.error) {
+           return res.status(StatusCodes.BAD_REQUEST).json({ message: newBlogPost.error.message });
+       }
        return res.status(StatusCodes.CREATED).json(newBlogPost);
    } catch (e) {
        console.log(e);
