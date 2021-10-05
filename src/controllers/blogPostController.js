@@ -27,7 +27,22 @@ const postBlogPost = async (req, res) => {
         }
     };
 
+    const getBlogPost = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const blogPost = await PostService.getBlogPost(id);
+            if (blogPost.error) {
+                return res.status(StatusCodes.NOT_FOUND).json({ message: blogPost.error.message });
+            }
+            return res.status(StatusCodes.OK).json(blogPost);
+        } catch (e) {
+            console.log('erro no controller getBlogPost', e);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(e); 
+        }
+    };
+
 module.exports = {
     postBlogPost,
     getAllBlogPosts,
+    getBlogPost,
 };
