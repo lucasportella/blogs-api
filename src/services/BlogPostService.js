@@ -1,8 +1,7 @@
-const { BlogPost, Category, User } = require('../sequelize/models');
+const { BlogPost, Category, User, PostsCategory } = require('../sequelize/models');
 
 const postBlogPost = async (payload) => {
     const { title, content, categoryIds, userId } = payload;
-
     const resultArray = await Promise.all(categoryIds.map((id) =>
     Category.findOne({ where: { id } })));
 
@@ -12,6 +11,10 @@ const postBlogPost = async (payload) => {
         return { errorType: 'not_found', error: { message: '"categoryIds" not found' } };
     }
     const result = await BlogPost.create({ title, content, userId });
+
+        await categoryIds.forEach((id) =>
+         PostsCategory.create({ postId: result.id, categoryId: id }));
+
     return result;
 };
 
