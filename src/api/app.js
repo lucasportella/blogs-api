@@ -18,3 +18,5 @@ app.use('/post', blogPostRoute);
 app.use(validationError);
 
 module.exports = app;
+
+// TESTING AVALIATOR IN PULL REQUESTS
