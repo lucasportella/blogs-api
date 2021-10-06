@@ -41,7 +41,10 @@ include: [{ model: User, as: 'user' },
 
 const verifyOwnership = async (blogPostId, userId) => {
     let userOwnership = await getBlogPost(blogPostId);
-    if (userOwnership.error || userOwnership.user.id !== userId) {
+    if (userOwnership.error) {
+        return userOwnership;
+    }
+    if (userOwnership.user.id !== userId) {
         userOwnership = { errorType: 'unauthorized', error: { message: 'Unauthorized user' } };
     }
     return userOwnership;
@@ -50,7 +53,6 @@ const verifyOwnership = async (blogPostId, userId) => {
 const putBlogPost = async (payload) => {
     const { userId, title, content, blogPostId } = payload;
     const userOwnership = await verifyOwnership(blogPostId, userId);
-    console.log(userOwnership);
     if (userOwnership.error) {
         return userOwnership;
     }
@@ -61,9 +63,20 @@ const putBlogPost = async (payload) => {
     return result;
 };
 
+const deleteBlogPost = async (payload) => {
+    const { userId, blogPostId } = payload;
+    const userOwnership = await verifyOwnership(blogPostId, userId);
+    if (userOwnership.error) {
+        return userOwnership;
+    }
+    const result = await BlogPost.destroy({ where: { id: blogPostId } });
+    return result;
+};
+
 module.exports = {
     postBlogPost,
     getAllBlogPosts,
     getBlogPost,
     putBlogPost,
+    deleteBlogPost,
 };
