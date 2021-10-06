@@ -11,6 +11,8 @@ router.post('/', validateJWT, validatePostBlogPost, blogPostController.postBlogP
 
 router.get('/', validateJWT, blogPostController.getAllBlogPosts);
 
+router.get('/search', validateJWT, blogPostController.postSearchQuery);
+
 router.get('/:id', validateJWT, blogPostController.getBlogPost);
 
 router.put('/:id', validatePutBlogPost, validateJWT, blogPostController.putBlogPost);

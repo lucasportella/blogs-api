@@ -97,10 +97,21 @@ const deleteBlogPost = async (payload) => {
     return result;
 };
 
+const postSearchQuery = async (query) => {
+    const result = await BlogPost.findAll({
+        where: { [Sequelize.Op.or]: [
+            { title: query },
+            { content: query },
+        ] },
+    });
+    return result;
+};
+
 module.exports = {
     postBlogPost,
     getAllBlogPosts,
     getBlogPost,
     putBlogPost,
     deleteBlogPost,
+    postSearchQuery,
 };

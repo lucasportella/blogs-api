@@ -79,10 +79,16 @@ const postBlogPost = async (req, res) => {
         }
     };
 
+    const postSearchQuery = async (req, res) => {
+        const searchResult = await PostService.postSearchQuery(req.query.q);
+        return res.status(StatusCodes.OK).json(searchResult);
+    };
+
 module.exports = {
     postBlogPost,
     getAllBlogPosts,
     getBlogPost,
     putBlogPost,
     deleteBlogPost,
+    postSearchQuery,
 };
