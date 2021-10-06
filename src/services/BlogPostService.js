@@ -1,6 +1,7 @@
 const { BlogPost, Category, User, PostsCategory } = require('../sequelize/models');
 
 const postBlogPost = async (payload) => {
+    // REFACTOR WITH SOLID AND ATOMICITY
     const { title, content, categoryIds, userId } = payload;
     const resultArray = await Promise.all(categoryIds.map((id) =>
     Category.findOne({ where: { id } })));
@@ -38,12 +39,20 @@ include: [{ model: User, as: 'user' },
     return result;
 };
 
+const verifyOwnership = async (blogPostId, userId) => {
+    let userOwnership = await getBlogPost(blogPostId);
+    if (userOwnership.error || userOwnership.user.id !== userId) {
+        userOwnership = { errorType: 'unauthorized', error: { message: 'Unauthorized user' } };
+    }
+    return userOwnership;
+};
+
 const putBlogPost = async (payload) => {
     const { userId, title, content, blogPostId } = payload;
-    const userOwnership = await getBlogPost(blogPostId);
+    const userOwnership = await verifyOwnership(blogPostId, userId);
     console.log(userOwnership);
-    if (userOwnership.error || userOwnership.user.id !== userId) {
-        return { errorType: 'unauthorized', error: { message: 'Unauthorized user' } };
+    if (userOwnership.error) {
+        return userOwnership;
     }
     let result = await BlogPost.update({ title, content }, { where: { id: blogPostId } });
     if (result[0] === 1) {
