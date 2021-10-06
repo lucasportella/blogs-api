@@ -27,15 +27,19 @@ const postBlogPost = async (payload) => {
             return checkCategories;
         }
         const result = await BlogPost.create({ title, content, userId }, { transaction: t });
-    
-        await categoryIds.forEach((id) =>
-            PostsCategory.create({ postId: result.id, categoryId: id }, { transaction: t }));
-    
+
+        await Promise.all(categoryIds.map((id) =>
+        PostsCategory.create({ postId: result.id, categoryId: id }, { transaction: t }))); 
+        // fixing foreach mistake --> cant use it with await
+        // https://github.com/sequelize/sequelize/issues/7525
+        // https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
+        
         await t.commit();
         return result;
     } catch (e) {
         await t.rollback();
         console.log('ERROR ON ATOMIC OPERATION at postBlogPost service', e);
+        return e;
     }
 };
 
