@@ -38,8 +38,14 @@ const getUser = async (id) => {
     return parsedUser;
 };
 
+const deleteUser = async (id) => {
+    const result = await User.destroy({ where: { id } });
+    return result;
+};
+
 module.exports = {
     postNewUser,
     getAllUsers,
     getUser,
+    deleteUser,
 };

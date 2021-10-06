@@ -45,8 +45,22 @@ const getUser = async (req, res) => {
     }
 };
 
+const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.user;
+        const confirmation = await UserService.deleteUser(id);
+        if (confirmation === 1) {
+            return res.status(StatusCodes.NO_CONTENT).json();
+        }
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: confirmation });
+    } catch (e) {
+        console.log('erro no controller deleteUser', e);
+    }
+};
+
 module.exports = {
     postNewUser,
     getAllUsers,
     getUser,
+    deleteUser,
 };

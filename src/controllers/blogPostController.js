@@ -60,18 +60,23 @@ const postBlogPost = async (req, res) => {
     };
 
     const deleteBlogPost = async (req, res) => {
-        const userId = req.user.id;
-        const blogPostId = req.params.id;
-        const payload = { userId, blogPostId };
-        const confirmation = await PostService.deleteBlogPost(payload);
-        if (confirmation.errorType === 'unauthorized') {
-            return res.status(StatusCodes.UNAUTHORIZED).json(
-                { message: confirmation.error.message },
-);
-        } if (confirmation.errorType === 'not_found') {
-            return res.status(StatusCodes.NOT_FOUND).json({ message: confirmation.error.message });
+        try {
+            const userId = req.user.id;
+            const blogPostId = req.params.id;
+            const payload = { userId, blogPostId };
+            const confirmation = await PostService.deleteBlogPost(payload);
+            if (confirmation.errorType === 'unauthorized') {
+                return res.status(StatusCodes.UNAUTHORIZED).json(
+                    { message: confirmation.error.message },
+    );
+            } if (confirmation.errorType === 'not_found') {
+                return res.status(StatusCodes.NOT_FOUND)
+                .json({ message: confirmation.error.message });
+            }
+            return res.status(StatusCodes.NO_CONTENT).json();
+        } catch (e) {
+            console.log('erro no controller deleteBlogPost', e);
         }
-        return res.status(StatusCodes.NO_CONTENT).json();
     };
 
 module.exports = {
