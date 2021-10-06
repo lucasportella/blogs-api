@@ -80,8 +80,12 @@ const postBlogPost = async (req, res) => {
     };
 
     const postSearchQuery = async (req, res) => {
+       try {
         const searchResult = await PostService.postSearchQuery(req.query.q);
         return res.status(StatusCodes.OK).json(searchResult);
+       } catch (e) {
+           console.log('erro no controller postSearchQuery', e);
+       }
     };
 
 module.exports = {
