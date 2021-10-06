@@ -1,16 +1,27 @@
 const { BlogPost, Category, User, PostsCategory } = require('../sequelize/models');
 
-const postBlogPost = async (payload) => {
-    // REFACTOR WITH SOLID AND ATOMICITY
-    const { title, content, categoryIds, userId } = payload;
+const checkCategoryExistence = async (categoryIds) => {
     const resultArray = await Promise.all(categoryIds.map((id) =>
     Category.findOne({ where: { id } })));
-
+    
     const checkCategoryIds = resultArray.every((result) => result !== null);
     
     if (!checkCategoryIds) {
         return { errorType: 'not_found', error: { message: '"categoryIds" not found' } };
     }
+    return 'all categories exists';
+};
+
+const postBlogPost = async (payload) => {
+    // REFACTOR WITH SOLID AND ATOMICITY
+    const { title, content, categoryIds, userId } = payload;
+
+    const checkCategories = await checkCategoryExistence(categoryIds);
+
+    if (checkCategories.error) {
+        return checkCategories;
+    }
+
     const result = await BlogPost.create({ title, content, userId });
 
         await categoryIds.forEach((id) =>
