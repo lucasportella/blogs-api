@@ -22,18 +22,18 @@ const postBlogPost = async (payload) => {
     try {
         const { title, content, categoryIds, userId } = payload;
         const checkCategories = await checkCategoryExistence(categoryIds);
-    
+
         if (checkCategories.error) {
             return checkCategories;
         }
         const result = await BlogPost.create({ title, content, userId }, { transaction: t });
 
         await Promise.all(categoryIds.map((id) =>
-        PostsCategory.create({ postId: result.id, categoryId: id }, { transaction: t }))); 
+            PostsCategory.create({ postId: result.id, categoryId: id }, { transaction: t })));
         // fixing foreach mistake --> cant use it with await
         // https://github.com/sequelize/sequelize/issues/7525
         // https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
-        
+
         await t.commit();
         return result;
     } catch (e) {
@@ -97,13 +97,41 @@ const deleteBlogPost = async (payload) => {
     return result;
 };
 
-const postSearchQuery = async (query) => {
-    const result = await BlogPost.findAll({
-        where: { [Sequelize.Op.or]: [
-            { title: query },
-            { content: query },
-        ] },
+const emptyQuerySearch = async () =>
+    BlogPost.findAll({
+        include: [
+            { model: User, as: 'user' },
+            {
+                model: Category,
+                as: 'categories',
+                through: { attributes: [] },
+            }],
     });
+
+const querySearch = async (query) =>
+    BlogPost.findAll({
+        where: {
+            [Sequelize.Op.or]: [
+                { title: query },
+                { content: query },
+            ],
+        },
+        include:
+            [
+                { model: User, as: 'user' },
+                {
+                    model: Category,
+                    as: 'categories',
+                    through: { attributes: [] },
+                }],
+    });
+
+const postSearchQuery = async (query) => {
+    if (query === '') {
+        const result = await emptyQuerySearch();
+        return result;
+    }
+    const result = await querySearch(query);
     return result;
 };
 
