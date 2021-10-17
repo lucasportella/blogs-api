@@ -32,4 +32,4 @@ Here's an example of how to register an user in the database through the route *
   >
 > }
 
-If you can read portuguese, you can take a detailed look of this project through the file *avaliacao-trybe.md* in the root folder.
+If you can read portuguese, take a detailed look of this project through the file *avaliacao-trybe.md* in the root folder.
