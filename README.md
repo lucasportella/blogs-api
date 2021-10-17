@@ -19,13 +19,17 @@
 ## Requests
   - in the root folder, go the public folder, there you will see pictures of expected inputs and outputs from the API.
 
-Here's an example of how to register an user in the database through the route htttp://localhost:3000/user
+Here's an example of how to register an user in the database through the route *htttp://localhost:3000/user*
 
-{
-  "displayName": "Brett Wiltshire",
-  "email": "brett@email.com",
-  "password": "123456",
-  "image": "http://4.bp.blogspot.com/_YA50adQ-7vQ/S1gfR_6ufpI/AAAAAAAAAAk/1ErJGgRWZDg/S45/brett.png"
-}
+> {
+  > "displayName": "Brett Wiltshire",
+  >
+  > "email": "brett@email.com",
+  >
+  > "password": "123456",
+  >
+  > "image": "http://4.bp.blogspot.com/_YA50adQ-7vQ/S1gfR_6ufpI/AAAAAAAAAAk/1ErJGgRWZDg/S45/brett.png"
+  >
+> }
 
 If you can read portuguese, you can take a detailed look of this project through the file *avaliacao-trybe.md* in the root folder.
