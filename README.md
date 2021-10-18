@@ -20,7 +20,7 @@
 ## Requests
 In the root folder, go the public folder, you will see pictures of expected inputs and outputs from the API.
 
-Here's an example of how to register an user in the database through the route *htttp://localhost:3000/user* with a POST request.
+Here's an example of how to register an user in the database through the route *http://localhost:3000/user* with a POST request.
 
 > {
 > 
